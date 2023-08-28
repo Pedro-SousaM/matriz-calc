@@ -120,7 +120,7 @@
 <body>
     <div class="tittle">Calcule as características de um conjunto</div>
     <input type="text" class="mgenerator el" value="a b c" placeholder="liste os elementos">
-    <input type="text" class="mgenerator par" value="(a,a)(b,c)(c,c)(c,a)" placeholder="pares de elementos">
+    <input type="text" class="mgenerator par" value="(b,c)(c,c)(c,a)" placeholder="pares de elementos">
     <input type="button" value="Gerar matriz" class="mgenerator generator">
     <input type="button" value="Gerar pares" class="pgenerator mgenerator generator">
 
@@ -188,7 +188,7 @@
                             }
                         }
                     }
-                }
+                }}
 
                 mconts.forEach(elements => {
                     elements.addEventListener("input", () => {
@@ -205,7 +205,6 @@
                 paddingFormat.pop()
                 paddingFormat.pop()
                 paddingFormat = Number(paddingFormat.join(""))
-                console.log(paddingFormat)
                 mconts.forEach(mcont => {
                     mcont.style.width = (area.clientWidth / format.length) - area.clientWidth * 0.06 + "px"
                     mcont.style.paddingLeft = (paddingFormat - 3 * format.length) + "px"
@@ -223,14 +222,17 @@
                     }
                 }
                 gencont = 0
-                for (let y = 0; y < format.length; y++) {
+                for (y = 0; y < format.length; y++) { 
+                    
                     if (matriz[y][y] == 1) {
-                        gencont++
+                        gencont++ 
+                        console.log(`gencont=${gencont}, matriz[${y}][${y}]`)
                     }
-                }
+                } 
+                console.log(gencont == format.length)
                 if (gencont == format.length) {
-                    reflex = true
-                } else if (gencont < format.length && gencont != 0) {
+                    reflex = true 
+                } else if (gencont != 0) { 
                     reflex = false
                 } else (antireflex = true)
                 result.innerHTML = "A matriz é: "
@@ -247,13 +249,12 @@
                 for (let l = 0; l < format.length; l++) {
 
                     for (c = 0; c < format.length; c++) {
-                        console.log(`matriz[${l}][${c}]e matriz[${c}][${l}] `, matriz[l][c], matriz[c][l])
                         if (l != c && matriz[l][c] == matriz[c][l]) {
                             gencont++
                         }
                     }
                 }
-                console.log(gencont)
+               
                 if (gencont == (format.length ** 2 - format.length)) {
                     simetric = true
                 } else if (gencont < (format.length ** 2 - format.length) && gencont != 0) {
@@ -267,7 +268,7 @@
                     result.innerHTML += "e não-simétrica"
                 }
             }
-        });
+        );
         buttonP.addEventListener("click", () => {
             if (matriz != []) {
                 matriz = [] 
