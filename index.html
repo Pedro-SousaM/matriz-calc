@@ -5,15 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matematica</title>
-    <style> 
-        
+    <style>
         body {
             background-color: rgb(11, 21, 49);
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-family: Arial, Helvetica, sans-serif; 
+            font-family: Arial, Helvetica, sans-serif;
             height: 150vh;
         }
 
@@ -41,9 +40,9 @@
         }
 
         .generator {
-            width: 5vw;
-            top: -159px;
-            left: 18.9vw;
+            width: 15vw;
+            top: -220px;
+            left: 24.9vw;
             background-color: aliceblue;
             height: 5.6vh;
         }
@@ -84,7 +83,7 @@
             height: 100%;
             color: aliceblue;
             font-size: 50px;
-            flex-direction: column; 
+            flex-direction: column;
             z-index: -1;
         }
 
@@ -95,24 +94,26 @@
             color: aliceblue;
             font-size: 50px;
             flex-direction: row;
-        } 
-        .results{
-            height: 30vh; 
-            width: 60vw; 
-            position: absolute; 
-            top: 120vh; 
-            display: flex; 
-            flex-direction: column; 
-            font-size: 44px;   
-            color: aliceblue;   
-        }  
-        .simetric{
-            margin: 10px;
-        } 
-        .reflex{
+        }
+
+        .results {
+            height: 30vh;
+            width: 60vw;
+            position: absolute;
+            top: 120vh;
+            display: flex;
+            flex-direction: column;
+            font-size: 44px;
+            color: aliceblue;
+        }
+
+        .simetric {
             margin: 10px;
         }
-        
+
+        .reflex {
+            margin: 10px;
+        }
     </style>
 </head>
 
@@ -120,7 +121,8 @@
     <div class="tittle">Calcule as características de um conjunto</div>
     <input type="text" class="mgenerator el" value="a b c" placeholder="liste os elementos">
     <input type="text" class="mgenerator par" value="(a,a)(b,c)(c,c)(c,a)" placeholder="pares de elementos">
-    <input type="button" value="Gerar" class="mgenerator generator">
+    <input type="button" value="Gerar matriz" class="mgenerator generator">
+    <input type="button" value="Gerar pares" class="pgenerator mgenerator generator">
 
     <div class="mArea">
 
@@ -132,43 +134,46 @@
 
         </div>
 
-       
+
     </div>
     <div class="results">
         <div class="reflex">
-            
-        </div> 
+
+        </div>
     </div>
     <script>
         let area = document.querySelector(".mArea")
         let elm = document.querySelector(".el")
         let par = document.querySelector(".par")
-        let button = document.querySelector(".generator") 
-        let reset = area.innerHTML 
-        let matriz =[]
-        let reflex=false  
-        let antireflex = false 
-        let simetric = false 
-        let antisimetric = false 
-        let result= document.querySelector(".results")
-        button.addEventListener("click", () => { 
-            let format = elm.value.split(" ");   
-            area.innerHTML = reset 
-            for(let x=0; x<format.length; x++) {
-                area.innerHTML += `<div class="mLine N${x}"></div>` 
-            }  
-            for(let x=0; x<format.length; x++) {
+        let button = document.querySelector(".generator")
+        let buttonP = document.querySelector(".pgenerator")
+        let reset = area.innerHTML
+        let matriz = []
+        let format
+        let mconts
+        let reflex = false
+        let antireflex = false
+        let simetric = false
+        let antisimetric = false
+        let result = document.querySelector(".results")
+        button.addEventListener("click", () => {
+            format = elm.value.split(" ");
+            area.innerHTML = reset
+            for (let x = 0; x < format.length; x++) {
+                area.innerHTML += `<div class="mLine N${x}"></div>`
+            }
+            for (let x = 0; x < format.length; x++) {
                 document.querySelector(".aghost").innerHTML += `<div class="abc">${format[x]}</div>`
                 document.querySelector(".bghost").innerHTML += `<div class="abc">${format[x]}</div>`
             }
-            let gencont=0
-            for(let y=0; y<format.length; y++) { 
-                    for(let x=0; x<format.length; x++) {
-                    document.querySelector(`.N${y}`).innerHTML +=`<input type="number"class="mCont M${gencont} L${y} C${x}">` 
+            let gencont = 0
+            for (let y = 0; y < format.length; y++) {
+                for (let x = 0; x < format.length; x++) {
+                    document.querySelector(`.N${y}`).innerHTML += `<input type="number"class="mCont M${gencont} L${y} C${x}">`
                     gencont++
                 }
-                } 
-            let mconts = document.querySelectorAll(".mCont")
+            }
+            mconts = document.querySelectorAll(".mCont")
             let format1 = par.value.split("(");
             format1.shift();
             let format2 = format1.join('').split(")");
@@ -184,84 +189,107 @@
                         }
                     }
                 }
-            } 
-            mconts.forEach(elements => {
-            elements.addEventListener("input", () => {
-                if (Number(elements.value) > 1) { elements.value = 1 }
-                else if (Number(elements.value) < 0) { elements.value = 0 }
-            })
-        }) 
-            for(let x = 0; x < format.length**2; x++) { 
-                if(mconts[x].value!=1){
-                    mconts[x].value =0
+
+                mconts.forEach(elements => {
+                    elements.addEventListener("input", () => {
+                        if (Number(elements.value) > 1) { elements.value = 1 }
+                        else if (Number(elements.value) < 0) { elements.value = 0 }
+                    })
+                })
+                for (let x = 0; x < format.length ** 2; x++) {
+                    if (mconts[x].value != 1) {
+                        mconts[x].value = 0
+                    }
                 }
-            }   
-            let paddingFormat = window.getComputedStyle(mconts[0], null).getPropertyValue('padding-left').split("")  
-                paddingFormat.pop() 
-                paddingFormat.pop() 
+                let paddingFormat = window.getComputedStyle(mconts[0], null).getPropertyValue('padding-left').split("")
+                paddingFormat.pop()
+                paddingFormat.pop()
                 paddingFormat = Number(paddingFormat.join(""))
-            console.log(paddingFormat)
-            mconts.forEach(mcont => {
-                mcont.style.width=(area.clientWidth/format.length)-area.clientWidth*0.06+"px"  
-                mcont.style.paddingLeft=(paddingFormat-3*format.length)+"px" 
-                mcont.style.fontSize=220/format.length+"px"
-                mcont.style.height=(area.clientHeight/format.length)-area.clientHeight*0.06+"px"
-            }) 
+                console.log(paddingFormat)
+                mconts.forEach(mcont => {
+                    mcont.style.width = (area.clientWidth / format.length) - area.clientWidth * 0.06 + "px"
+                    mcont.style.paddingLeft = (paddingFormat - 3 * format.length) + "px"
+                    mcont.style.fontSize = 220 / format.length + "px"
+                    mcont.style.height = (area.clientHeight / format.length) - area.clientHeight * 0.06 + "px"
+                })
 
-            gencont=0 
-            matriz=[]
-            for(let y = 0; y < format.length; y++) { 
-                matriz.push([])
-                for(let x =0; x<format.length;x++){
-                    matriz[y].push(Number(mconts[gencont].value)) 
-                    gencont++
+                gencont = 0
+                matriz = []
+                for (let y = 0; y < format.length; y++) {
+                    matriz.push([])
+                    for (let x = 0; x < format.length; x++) {
+                        matriz[y].push(Number(mconts[gencont].value))
+                        gencont++
+                    }
                 }
-            } 
-            gencont=0 
-            for(let y = 0; y < format.length; y++){
-                if(matriz[y][y]==1){
-                    gencont++ 
+                gencont = 0
+                for (let y = 0; y < format.length; y++) {
+                    if (matriz[y][y] == 1) {
+                        gencont++
+                    }
                 }
-            }    
-            if(gencont==format.length){
-                reflex=true
-            }else if(gencont<format.length&&gencont!=0){
-                reflex=false
-            }else(antireflex=true)
-            result.innerHTML="A matriz é: "
-            if(reflex){
-                result.innerHTML+= "reflexiva "
-            }else if(antireflex){
-                result.innerHTML+= "anti-reflexiva "
-            }else{
-                result.innerHTML+= "não-reflexiva "
-            } 
-            let c; 
-            gencont=0 
-            console.log(matriz)
-            for(let l = 0; l < format.length; l++){ 
+                if (gencont == format.length) {
+                    reflex = true
+                } else if (gencont < format.length && gencont != 0) {
+                    reflex = false
+                } else (antireflex = true)
+                result.innerHTML = "A matriz é: "
+                if (reflex) {
+                    result.innerHTML += "reflexiva "
+                } else if (antireflex) {
+                    result.innerHTML += "anti-reflexiva "
+                } else {
+                    result.innerHTML += "não-reflexiva "
+                }
+                let c;
+                gencont = 0
+                console.log(matriz)
+                for (let l = 0; l < format.length; l++) {
 
-                    for(c = 0; c < format.length;c++){ 
-                        console.log(`matriz[${l}][${c}]e matriz[${c}][${l}] `,matriz[l][c],matriz[c][l]) 
-                        if(l!=c&&matriz[l][c]==matriz[c][l]){ 
+                    for (c = 0; c < format.length; c++) {
+                        console.log(`matriz[${l}][${c}]e matriz[${c}][${l}] `, matriz[l][c], matriz[c][l])
+                        if (l != c && matriz[l][c] == matriz[c][l]) {
                             gencont++
                         }
                     }
-            } 
-            console.log(gencont)
-            if(gencont==(format.length**2-format.length)){
-                simetric=true
-            }else if(gencont<(format.length**2-format.length)&&gencont!=0){
-                simetric=false
-            }else(antisimetric=true)
-            if(simetric){
-                result.innerHTML+= "e simétrica"
-            }else if(antisimetric){
-                result.innerHTML+= "e anti-simétrica"
-            }else{
-                result.innerHTML+= "e não-simétrica"
-            }  
+                }
+                console.log(gencont)
+                if (gencont == (format.length ** 2 - format.length)) {
+                    simetric = true
+                } else if (gencont < (format.length ** 2 - format.length) && gencont != 0) {
+                    simetric = false
+                } else (antisimetric = true)
+                if (simetric) {
+                    result.innerHTML += "e simétrica"
+                } else if (antisimetric) {
+                    result.innerHTML += "e anti-simétrica"
+                } else {
+                    result.innerHTML += "e não-simétrica"
+                }
+            }
         });
+        buttonP.addEventListener("click", () => {
+            if (matriz != []) {
+                matriz = [] 
+                let gencont = 0
+                for (let y = 0; y < format.length; y++) {
+                    matriz.push([])
+                    for (let x = 0; x < format.length; x++) {
+                        matriz[y].push(Number(mconts[gencont].value))
+                        gencont++
+                    }
+                }
+                par.value = ""
+                for (let x = 0; x < format.length; x++) {
+                    for (let y = 0; y < format.length; y++) {
+                        if (matriz[x][y] == 1) {
+                            par.value += `(${format[y]},${format[x]})`
+                        }
+                    }
+                }
+            }
+        })
+
 
 
     </script>
