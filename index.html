@@ -174,7 +174,8 @@
                 }
             }
             mconts = document.querySelectorAll(".mCont")
-            let format1 = par.value.split("(");
+            let removespace = par.value.split(" ").join("")
+            let format1 = removespace.split("(");
             format1.shift();
             let format2 = format1.join('').split(")");
             format2.pop();
