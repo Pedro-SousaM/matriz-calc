@@ -120,7 +120,7 @@
 <body>
     <div class="tittle">Calcule as características de um conjunto</div>
     <input type="text" class="mgenerator el" value="a b c" placeholder="liste os elementos">
-    <input type="text" class="mgenerator par" value="(b,c)(c,c)(c,a)" placeholder="pares de elementos">
+    <input type="text" class="mgenerator par" value="(b,c)(c,a)" placeholder="pares de elementos">
     <input type="button" value="Gerar matriz" class="mgenerator generator">
     <input type="button" value="Gerar pares" class="pgenerator mgenerator generator">
 
@@ -173,19 +173,21 @@
                     gencont++
                 }
             }
-            mconts = document.querySelectorAll(".mCont")
+            mconts = document.querySelectorAll(".mCont") 
             let removespace = par.value.split(" ").join("")
             let format1 = removespace.split("(");
             format1.shift();
             let format2 = format1.join('').split(")");
-            format2.pop();
-            for (let x = 0; x < format.length; x++) {
+            format2.pop(); 
+            let NparaN=0
+            for (let x = 0; x < format.length; x++) { 
+                
                 for (let z = 0; z <= format.length ** 2; z++) {
                     if (format2[z] != undefined) { format3 = format2[z].split(",") };
                     if (format[x] == format3[0]) {
                         for (let y = 0; y < format.length; y++) {
                             if (format3[1] == format[y]) {
-                                mconts[x + format.length * y].value = 1
+                                mconts[y + format.length * x].value = 1 
                             }
                         }
                     }
@@ -229,7 +231,29 @@
                         gencont++ 
                         console.log(`gencont=${gencont}, matriz[${y}][${y}]`)
                     }
+                }  
+                let gencont2=0  
+                let container2=false
+                let gencont3 = 0  
+                let container3 = false
+                for(let x = 0; x < format.length; x++) { 
+                    gencont2=0
+                    for(let y =0; y<format.length;y++){
+                       if( matriz[x][y]==1){
+                            gencont2++ 
+                            if(gencont2>1){container2=true} 
+                       }
+                    }
                 } 
+                for(let x = 0; x < format.length; x++) { 
+                    gencont3=0
+                    for(let y =0; y<format.length;y++){
+                       if( matriz[y][x]==1){
+                            gencont3++ 
+                            if(gencont3>1){container3=true} 
+                       }
+                    }
+                }
                 console.log(gencont == format.length)
                 if (gencont == format.length) {
                     reflex = true 
@@ -267,7 +291,18 @@
                     result.innerHTML += "e anti-simétrica"
                 } else {
                     result.innerHTML += "e não-simétrica"
-                }
+                } 
+                if(!container3){
+                    result.innerHTML += " | um"
+                }else if (container3){
+                    result.innerHTML += " | varios"
+                }  
+                if(!container2){
+                    result.innerHTML += " para um"
+                }else if (container2){
+                    result.innerHTML += " para varios"
+                } 
+                
             }
         );
         buttonP.addEventListener("click", () => {
@@ -284,7 +319,7 @@
                 par.value = ""
                 for (let x = 0; x < format.length; x++) {
                     for (let y = 0; y < format.length; y++) {
-                        if (matriz[x][y] == 1) {
+                        if (matriz[y][x] == 1) {
                             par.value += `(${format[y]},${format[x]})`
                         }
                     }
